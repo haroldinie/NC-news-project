@@ -3,6 +3,7 @@ const seed = require("../db/seeds/seed")
 const db = require("../db/connection.js")
 const request = require("supertest")
 const app = require("../app.js")
+const endPoints = require('../endpoints.json')
 
 beforeEach(() => {
     return seed(data)
@@ -45,7 +46,7 @@ describe("GET /api/topics", () => {
     describe("GET /api/topics", () => {
         test("responds with 404 when incorrect spelling", () => {
             return request(app)
-            .get("/incorrectspelling")
+            .get("/api/incorrectspelling")
             .expect(404)
         })
     })
@@ -57,9 +58,19 @@ describe("GET /api", () => {
         .expect(200)
         .then(({body}) => {
             console.log({body})
-            expect(body.length > 0).toBe(true)
-            expect(body[0])
+            
+                expect.objectContaining({ description: expect.any(String),
+                queries: expect.any(Array),
+                exampleResponse: expect.any(Object)
+                
+                })
+                })
+                
+            })
         })
+    test("responds with 404 when incorrect spelling", () => {
+        return request(app)
+        .get("/incorrectspelling")
+        .expect(404)
     })
-})
 })

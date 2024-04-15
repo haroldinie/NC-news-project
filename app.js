@@ -5,10 +5,9 @@ const endPoints = require('./endpoints.json')
 
 app.get('/api/topics', getTopics) 
 
-// app.get('/api', endPoints)
-// console.log(endPoints)
-
-// app.use('/api/topicsss', get)
+app.get('/api', (req, res) => {
+    res.status(200).json(endPoints)
+})
 
 app.all('*', (req, res) => {
     res.status(404).send({message: "not found"})
