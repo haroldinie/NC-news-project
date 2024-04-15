@@ -18,18 +18,48 @@ describe("GET /api/topics", () => {
         .get("/api/topics")
         .expect(200)
         .then(({body}) => {
-            expect(body.length > 0).toBe(true)
-            expect(body[0]).toHaveProperty('slug')
-            expect(body[0]).toHaveProperty('description')
+            expect(body).toHaveLength(3)
+            body.forEach((topic) => {
+                expect(topic).toMatchObject({ description: expect.any(String), slug: expect.any(String) })
+            })
         })
     })
-    // test("GET: 404, responds with bad request when spelling error", () => {
-    //     return request(app)
-    //     .get("/api/topicsss")
-    //     .expect(404)
-    //     .then(({body}) => {
-            
-    //         expect(body.message).toEqual('not found') // couldnt get test to pass with 404 message?
-    //     })
-    // })
+        // .then(({body}) => {
+        //     expect(body).toHaveLength(3)
+        //     expect(body).toMatchObject([
+        //         {
+        //           description: 'The man, the Mitch, the legend',
+        //           slug: 'mitch'
+        //         },
+        //         {
+        //           description: 'Not dogs',
+        //           slug: 'cats'
+        //         },
+        //         {
+        //           description: 'what books are made of',
+        //           slug: 'paper'
+        //         }
+        //       ])
+        // })
+
+    describe("GET /api/topics", () => {
+        test("responds with 404 when incorrect spelling", () => {
+            return request(app)
+            .get("/incorrectspelling")
+            .expect(404)
+        })
+    })
+
+describe("GET /api", () => {
+    test("responds with object describing all available endpoints", () => {
+        return request(app)
+        .get ("/api")
+        .expect(200)
+        .then(({body}) => {
+            console.log({body})
+            expect(body.length > 0).toBe(true)
+            expect(body[0])
+        })
+    })
+})
 })

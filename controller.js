@@ -1,4 +1,5 @@
 const retreiveTopics = require('./models.js');
+// const retreiveEndPoints = require('./models.js')
 
 function getTopics(req, res, next) {
     const { query } = req
@@ -7,10 +8,16 @@ function getTopics(req, res, next) {
     .then(({rows}) => {
         res.status(200).send(rows)
     })
-    .catch((err) => {
+    .catch((next) => {
         
         next(err)
     })
 }
 
+// function endPoints(req, res, next) {
+//     const { query } = req
+//     return retreiveEndPoints(query)
+// }
+
 module.exports = getTopics
+// module.exports = endPoints
