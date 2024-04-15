@@ -1,3 +1,8 @@
 # Northcoders News API
 
-For instructions, please head over to [L2C NC News](https://l2c.northcoders.com/courses/be/nc-news).
+Instructions on how to create environment variables to run locally
+
+1. Please clone https://github.com/haroldinie/NC-news-project.git
+2. create a .env.development file with the contents: PGDATABASE=nc_news
+3. create a .env.test file with the contents: PGDATABASE=nc_news_test
+4. run: npm install
