@@ -12,16 +12,19 @@ app.get("/api", (req, res) => {
 
 app.get("/api/articles/:article_id", getArticleById);
 
+app.all("*", (req, res, next) => {
+  res.status(404).send({ message: "not found" });
+});
+
 app.use((err, req, res, next) => {
     res.status(400).send({message: "Bad request"})
 })
 
-app.all("*", (req, res, next) => {
-  res.status(404).send({ message: "not found" });
-});
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: "internal server error" });
 });
 
 module.exports = app;
+
+
