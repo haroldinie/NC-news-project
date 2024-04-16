@@ -66,7 +66,12 @@ describe("GET /api/articles/:article_id", () => {
   });
   test("GET:400, responds with status code and message when given invalid id", () => {
     return request(app)
-    .get("/api/articles/999")
+    .get("/api/articles/wrong")
     .expect(400)
   })
-});
+  test("GET:404, responds with status code and message when given invalid id", () => {
+    return request(app)
+    .get("/api/articlesss/3")
+    .expect(404)
+})
+})
