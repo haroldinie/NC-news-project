@@ -1,5 +1,4 @@
 const retreiveTopics = require('./models.js');
-// const retreiveEndPoints = require('./models.js')
 
 function getTopics(req, res, next) {
     const { query } = req
@@ -14,10 +13,8 @@ function getTopics(req, res, next) {
     })
 }
 
-// function endPoints(req, res, next) {
-//     const { query } = req
-//     return retreiveEndPoints(query)
-// }
+
+
+
 
 module.exports = getTopics
-// module.exports = endPoints
