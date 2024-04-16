@@ -1,4 +1,5 @@
-const { retreiveTopics, retrieveArticleById, retrieveAllArticles } = require("./models.js");
+const articles = require("./db/data/test-data/articles.js");
+const { retreiveTopics, retrieveArticleById, retrieveAllArticles, retrieveCommentsByArticleId } = require("./models.js");
 
 function getTopics(req, res, next) {
   const { query } = req;
@@ -33,5 +34,16 @@ function getAllArticles(req, res, next) {
     })
 }
 
+function getCommentsByArticleId(req, res, next) {
+    const {article_id} = req.params
+    return retrieveCommentsByArticleId(article_id)
+    .then((comments) => {
+        return res.status(200).send({comments})
+    })
+    .catch((err) => {
+        next(err)
+    })
+}
 
-module.exports = { getTopics, getArticleById, getAllArticles };
+
+module.exports = { getTopics, getArticleById, getAllArticles, getCommentsByArticleId };

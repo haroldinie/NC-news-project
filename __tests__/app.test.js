@@ -98,3 +98,33 @@ describe("GET /api/articles", () => {
       });
   });
 });
+
+describe("GET /api/articles/:article_id/comments", () => {
+  test("responds with an array of comments for the given article_id", () => {
+    return request(app)
+    .get("/api/articles/5/comments")
+    .then(({body}) => {
+      const { comments } = body
+      expect(comments).toHaveLength(2)
+      comments.forEach((comment) => {
+      expect(comment).toMatchObject({
+        comment_id: expect.any(Number),
+        votes: expect.any(Number),
+        created_at: expect.any(String),
+        author: expect.any(String),
+        body: expect.any(String),
+        article_id: expect.any(Number)
+      });
+    });
+    })
+  })
+  test("responds with array in desc order", () => {
+    return request(app)
+      .get("/api/articles/5/comments")
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments).toBeSorted({ descending: true });
+      });
+  });
+})
+// done a branch for 5 which is being reviewed, currently on branch 6
