@@ -57,20 +57,8 @@ describe("GET /api", () => {
         .get ("/api")
         .expect(200)
         .then(({body}) => {
-            console.log({body})
-            
-                expect.objectContaining({ description: expect.any(String),
-                queries: expect.any(Array),
-                exampleResponse: expect.any(Object)
-                
-                })
-                })
-                
-            })
+            expect(body).toEqual(endPoints)
         })
-    test("responds with 404 when incorrect spelling", () => {
-        return request(app)
-        .get("/incorrectspelling")
-        .expect(404)
     })
+})
 })

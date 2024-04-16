@@ -16,4 +16,6 @@ function retreiveTopics(query) {
     })
 }
 
+
+
 module.exports = retreiveTopics

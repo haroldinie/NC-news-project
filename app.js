@@ -6,7 +6,7 @@ const endPoints = require('./endpoints.json')
 app.get('/api/topics', getTopics) 
 
 app.get('/api', (req, res) => {
-    res.status(200).json(endPoints)
+    res.status(200).send(endPoints)
 })
 
 app.all('*', (req, res) => {
