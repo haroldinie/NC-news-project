@@ -1,4 +1,4 @@
-const { retreiveTopics, retrieveArticleById } = require("./models.js");
+const { retreiveTopics, retrieveArticleById, retrieveAllArticles } = require("./models.js");
 
 function getTopics(req, res, next) {
   const { query } = req;
@@ -12,7 +12,7 @@ function getTopics(req, res, next) {
 }
 
 function getArticleById(req, res, next) {
-  const { article_id } = req.params; // article_id: 2
+  const { article_id } = req.params; 
 
   return retrieveArticleById(article_id)
     .then((article) => {
@@ -23,4 +23,15 @@ function getArticleById(req, res, next) {
     });
 }
 
-module.exports = { getTopics, getArticleById };
+function getAllArticles(req, res, next) {
+    return retrieveAllArticles()
+    .then((articles) => {
+        res.status(200).send({articles})
+    })
+    .catch((err) => {
+        next(err)
+    })
+}
+
+
+module.exports = { getTopics, getArticleById, getAllArticles };

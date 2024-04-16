@@ -65,13 +65,36 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
   test("GET:400, responds with status code and message when given invalid id", () => {
-    return request(app)
-    .get("/api/articles/wrong")
-    .expect(400)
-  })
+    return request(app).get("/api/articles/wrong").expect(400);
+  });
   test("GET:404, responds with status code and message when given invalid id", () => {
+    return request(app).get("/api/articlesss/3").expect(404);
+  });
+});
+describe("GET /api/articles", () => {
+  test("responds with an array of all articles", () => {
     return request(app)
-    .get("/api/articlesss/3")
-    .expect(404)
-})
-})
+      .get("/api/articles")
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toHaveLength(13);
+        articles.forEach((article) => {
+          expect(article).toMatchObject({
+            title: expect.any(String),
+            topic: expect.any(String),
+            author: expect.any(String),
+            created_at: expect.any(String),
+            article_img_url: expect.any(String),
+          });
+        });
+      });
+  });
+  test("resonds with array in desc order", () => {
+    return request(app)
+      .get("/api/articles")
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSorted({ descending: true });
+      });
+  });
+});
