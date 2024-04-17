@@ -48,4 +48,14 @@ function retrieveCommentsByArticleId(article_id) {
       });
 }
 
-module.exports = { retreiveTopics, retrieveArticleById, retrieveAllArticles, retrieveCommentsByArticleId };
+function insertComments(article_id, newComment) {
+  const {author, body}  = newComment 
+
+  return db
+  .query(`INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;`, [article_id, author, body])
+  .then(({rows}) => {
+    return rows[0]
+  })
+}
+
+module.exports = { retreiveTopics, retrieveArticleById, retrieveAllArticles, retrieveCommentsByArticleId, insertComments };

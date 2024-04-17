@@ -126,5 +126,29 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(comments).toBeSorted({ descending: true });
       });
   });
+  test("GET:400, responds with status code and message when given invalid id", () => {
+    return request(app).get("/api/articles/wrong/comments").expect(400);
+  })
 })
-// done a branch for 5 which is being reviewed, currently on branch 6
+
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("Inserts the comment and then responds with the posted comment", () => {
+    const newComment = {
+      author: "butter_bridge",
+      body: "master blaster" 
+    }
+    return request(app)
+    .post("/api/articles/5/comments")
+    .send(newComment)
+    .expect(201)
+    .then(({body}) => {
+      expect(body.comment.author).toBe("butter_bridge")
+      expect(body.comment.body).toBe("master blaster")
+      expect(body.comment.article_id).toBe(5)
+    })
+  })
+})
+
+// 404 in the right place but thing doesnt exist - could exist but doesnt
+// 400 mispel not even in right pplace in path - not a chnace it exists
