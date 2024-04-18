@@ -53,7 +53,6 @@ describe("GET /api/articles/:article_id", () => {
       .get("/api/articles/2")
       .expect(200)
       .then(({ body }) => {
-        console.log(body)
         expect(body).toMatchObject({
           title: expect.any(String),
           topic: expect.any(String),
@@ -103,22 +102,22 @@ describe("GET /api/articles", () => {
 describe("GET /api/articles/:article_id/comments", () => {
   test("responds with an array of comments for the given article_id", () => {
     return request(app)
-    .get("/api/articles/5/comments")
-    .then(({body}) => {
-      const { comments } = body
-      expect(comments).toHaveLength(2)
-      comments.forEach((comment) => {
-      expect(comment).toMatchObject({
-        comment_id: expect.any(Number),
-        votes: expect.any(Number),
-        created_at: expect.any(String),
-        author: expect.any(String),
-        body: expect.any(String),
-        article_id: expect.any(Number)
+      .get("/api/articles/5/comments")
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments).toHaveLength(2);
+        comments.forEach((comment) => {
+          expect(comment).toMatchObject({
+            comment_id: expect.any(Number),
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+            author: expect.any(String),
+            body: expect.any(String),
+            article_id: expect.any(Number),
+          });
+        });
       });
-    });
-    })
-  })
+  });
   test("responds with array in desc order", () => {
     return request(app)
       .get("/api/articles/5/comments")
@@ -129,121 +128,116 @@ describe("GET /api/articles/:article_id/comments", () => {
   });
   test("GET:400, responds with status code and message when given invalid id", () => {
     return request(app).get("/api/articles/wrong/comments").expect(400);
-  })
+  });
   test("GET: 200, responds with empty array when artist_id is valid but no comments exists", () => {
     return request(app)
-    .get("/api/articles/10/comments")
-    .expect(200)
-    .then(({ body }) => {
-      const { comments } = body;
-      expect(comments).toHaveLength(0);
-    
-    })
-  })
-})
-
+      .get("/api/articles/10/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments).toHaveLength(0);
+      });
+  });
+});
 
 describe("POST /api/articles/:article_id/comments", () => {
   test("Inserts the new comment and then responds with the posted comment", () => {
     const newComment = {
       author: "butter_bridge",
-      body: "master blaster" 
-    }
+      body: "master blaster",
+    };
     return request(app)
-    .post("/api/articles/5/comments")
-    .send(newComment)
-    .expect(201)
-    .then(({body}) => {
-      expect(body.comment.author).toBe("butter_bridge")
-      expect(body.comment.body).toBe("master blaster")
-      expect(body.comment.article_id).toBe(5)
-    })
-  })
+      .post("/api/articles/5/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.comment.author).toBe("butter_bridge");
+        expect(body.comment.body).toBe("master blaster");
+        expect(body.comment.article_id).toBe(5);
+      });
+  });
   test("Responds with the correct error code when key does not exist", () => {
     const newComment = {
       authorrr: "butter_bridge",
-      body: "master blaster"
-    }
+      body: "master blaster",
+    };
     return request(app)
-    .post("/api/articles/5/comments")
-    .send(newComment)
-    .expect(400)
-    .then(({body}) => {
-      expect(body.msg).toBe("Invalid column value")
-    })
-  })
+      .post("/api/articles/5/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid column value");
+      });
+  });
   test("Responds with the correct error code when username does not exist", () => {
     const newComment = {
       author: "butterrrr_bridge",
-      body: "master blaster"
-    }
+      body: "master blaster",
+    };
     return request(app)
-    .post("/api/articles/5/comments")
-    .send(newComment)
-    .expect(400)
-    .then(({body}) => {
-      expect(body.msg).toBe("Invalid key value insert")
-    })
-  })
-})
-
+      .post("/api/articles/5/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid key value insert");
+      });
+  });
+});
 
 describe("PATCH /api/articles/:article_id", () => {
   test("update article with object inc_votes: newVote and returns updated article", () => {
     const patchVote = {
-      inc_votes: 5
-    }
+      inc_votes: 5,
+    };
     return request(app)
-    .patch("/api/articles/1")
-    .send(patchVote)
-    .expect(200)
-    .then(({body}) => {
-
-      expect(body.article).toMatchObject({
-        title: expect.any(String),
-        topic: expect.any(String),
-        author: expect.any(String),
-        body: expect.any(String),
-        created_at: expect.any(String),
-        votes: 105,
-        article_img_url: expect.any(String)
+      .patch("/api/articles/1")
+      .send(patchVote)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article).toMatchObject({
+          title: expect.any(String),
+          topic: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
+          created_at: expect.any(String),
+          votes: 105,
+          article_img_url: expect.any(String),
+        });
       });
-    })
-  })
+  });
   test("update article with object inc_votes: newVote, returns updated article with negative number value", () => {
     const patchVote = {
-      inc_votes: -150
-    }
+      inc_votes: -150,
+    };
     return request(app)
-    .patch("/api/articles/1")
-    .send(patchVote)
-    .expect(200)
-    .then(({body}) => {
-      console.log(body)
-      expect(body.article).toMatchObject({
-        title: expect.any(String),
-        topic: expect.any(String),
-        author: expect.any(String),
-        body: expect.any(String),
-        created_at: expect.any(String),
-        votes: -50,
-        article_img_url: expect.any(String)
+      .patch("/api/articles/1")
+      .send(patchVote)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article).toMatchObject({
+          title: expect.any(String),
+          topic: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
+          created_at: expect.any(String),
+          votes: -50,
+          article_img_url: expect.any(String),
+        });
       });
-    })
-  })
+  });
   test("Responds with the correct error code when username does not exist", () => {
     const patchVote = {
-      inc_votessss: 5
-    }
+      inc_votessss: 5,
+    };
     return request(app)
-    .patch("/api/articles/1")
-    .send(patchVote)
-    .expect(400)
-    .then(({body}) => {
-      expect(body.msg).toBe("Invalid column value")
-    })
-  })
-})
+      .patch("/api/articles/1")
+      .send(patchVote)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid column value");
+      });
+  });
+});
 
 // 404 in the right place but thing doesnt exist - could exist but doesnt
 // 400 mispel not even in right pplace in path - not a chnace it exists
