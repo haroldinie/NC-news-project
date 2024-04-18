@@ -3,14 +3,31 @@ const app = express();
 
 const endPoints = require("./endpoints.json");
 const {
-  getTopics,
   getArticleById,
   getAllArticles,
-  getCommentsByArticleId,
-  postComments,
-  patchVotes,
-  deleteComment,
-} = require("./controller");
+  patchVotes
+} = require("./controllers/articles.controller");
+
+const {
+  deleteComment, 
+  postComments, 
+  getCommentsByArticleId
+ } = require("./controllers/comments.controller");
+
+ const {
+  getTopics
+} = require("./controllers/topics.controller");
+
+const {
+  handleCustomErrors,
+  handleAll404,
+  handleInvalidPath,
+  handleInvalidColumn,
+  handleInvalidKey,
+  handle400,
+  handle500
+} = require("./errors/index");
+const { getUsers } = require("./controllers/users.controller");
 
 app.use(express.json());
 
@@ -32,44 +49,22 @@ app.patch("/api/articles/:article_id", patchVotes);
 
 app.delete("/api/comments/:comment_id", deleteComment);
 
-app.use((err, req, res, next) => {
-  console.log(err.code)
-  if (err.status && err.msg) {
-    res.status(err.status).send({ msg: err.msg });
-  }
-  next(err);
-});
-app.all("*", (req, res, next) => {
-  res.status(404).send({ message: "not found" });
-});
+app.get("/api/users", getUsers);
 
-app.use((err, req, res, next) => {
-  if (err.code === "22P02") {
-    res.status(400).send({ message: "Invalid path" });
-  }
-  next(err);
-});
+app.use(handleCustomErrors);
 
-app.use((err, req, res, next) => {
-  if (err.code === "23502") {
-    res.status(400).send({ msg: "Invalid column value" });
-  }
-  next(err);
-});
+app.all(handleAll404);
 
-app.use((err, req, res, next) => {
-  if (err.code === "23503") {
-    res.status(400).send({ msg: "Invalid key value insert" });
-  }
-  next(err);
-});
+app.use(handleInvalidPath);
 
-app.use((err, req, res, next) => {
-  res.status(400).send({ message: "Bad request" });
-});
+app.use(handleInvalidColumn);
 
-app.use((err, req, res, next) => {
-  res.status(500).send({ message: "internal server error" });
-});
+app.use(handleInvalidKey);
+
+app.use(handle400);
+
+app.use(handle500);
+
+
 
 module.exports = app;

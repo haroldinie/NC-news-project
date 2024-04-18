@@ -129,6 +129,9 @@ describe("GET /api/articles/:article_id/comments", () => {
   test("GET:400, responds with status code and message when given invalid id", () => {
     return request(app).get("/api/articles/wrong/comments").expect(400);
   });
+  // test.only("GET:404, responds with status code when given invalid id", () => {
+  //   return request(app).get("/api/articles/999/comments").expect(404);
+  // });
   test("GET: 200, responds with empty array when artist_id is valid but no comments exists", () => {
     return request(app)
       .get("/api/articles/10/comments")
@@ -250,11 +253,27 @@ describe("DELETE /api/comments/:comment_id", () => {
     .delete("/api/comments/39999")
     .expect(404)
     .then(({body}) => {
-      console.log(body)
       expect(body.msg).toBe("Comment not found")
     })
   })
 })
 
+describe("GET /api/users", () => {
+  test("responds with 200 and an array of object with the correct properties", () => {
+    return request(app)
+    .get("/api/users")
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toHaveLength(4);
+      body.forEach((user) => {
+      expect(user).toMatchObject({
+        username: expect.any(String),
+        name: expect.any(String),
+        avatar_url: expect.any(String)
+      });
+    })
+  })
+})
+})
 // 404 in the right place but thing doesnt exist - could exist but doesnt
 // 400 mispel not even in right pplace in path - not a chnace it exists

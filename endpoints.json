@@ -83,5 +83,13 @@
   "exampleResponse": {
     "response": 204
   }
+},
+"GET /api/users": {
+  "description": "serves an array of all topics",
+  "queries": [],
+  "exampleResponse": {
+    "topics": [{ "username": "icellusedkars", "name": "Barry", "avatar_url": "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4" }]
+  }
 }
+
 }
