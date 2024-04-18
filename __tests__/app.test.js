@@ -239,5 +239,22 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
+describe("DELETE /api/comments/:comment_id", () => {
+  test("responds with status 204 and no content", () => {
+    return request(app)
+    .delete("/api/comments/3")
+    .expect(204)
+  })
+  test("responds with status 404 when the comment to delete doesn't exist", () => {
+    return request(app)
+    .delete("/api/comments/39999")
+    .expect(404)
+    .then(({body}) => {
+      console.log(body)
+      expect(body.msg).toBe("Comment not found")
+    })
+  })
+})
+
 // 404 in the right place but thing doesnt exist - could exist but doesnt
 // 400 mispel not even in right pplace in path - not a chnace it exists

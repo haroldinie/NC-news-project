@@ -7,6 +7,7 @@ const {
   insertComments,
   checkArticleExists,
   updateVoteCount,
+  removeComment,
 } = require("./models.js");
 
 function getTopics(req, res, next) {
@@ -82,6 +83,19 @@ function patchVotes(req, res, next) {
     });
 }
 
+function deleteComment(req, res, next) {
+  const { comment_id } = req.params
+
+  return removeComment(comment_id)
+  .then(() => {
+    return res.status(204).send()
+  })
+  .catch((err) => {
+    next(err)
+  })
+}
+
+
 module.exports = {
   getTopics,
   getArticleById,
@@ -89,4 +103,5 @@ module.exports = {
   getCommentsByArticleId,
   postComments,
   patchVotes,
+  deleteComment
 };

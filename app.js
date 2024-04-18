@@ -9,6 +9,7 @@ const {
   getCommentsByArticleId,
   postComments,
   patchVotes,
+  deleteComment,
 } = require("./controller");
 
 app.use(express.json());
@@ -29,10 +30,12 @@ app.post("/api/articles/:article_id/comments", postComments);
 
 app.patch("/api/articles/:article_id", patchVotes);
 
+app.delete("/api/comments/:comment_id", deleteComment);
+
 app.use((err, req, res, next) => {
-  // console.log(err.code)
-  if (err.status && err.message) {
-    res.status(err.status).send({ message: err.message });
+  console.log(err.code)
+  if (err.status && err.msg) {
+    res.status(err.status).send({ msg: err.msg });
   }
   next(err);
 });
