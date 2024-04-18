@@ -1,5 +1,5 @@
 const articles = require("./db/data/test-data/articles.js");
-const { retreiveTopics, retrieveArticleById, retrieveAllArticles, retrieveCommentsByArticleId, insertComments } = require("./models.js");
+const { retreiveTopics, retrieveArticleById, retrieveAllArticles, retrieveCommentsByArticleId, insertComments, checkArticleExists, updateVoteCount } = require("./models.js");
 
 function getTopics(req, res, next) {
   const { query } = req;
@@ -36,9 +36,9 @@ function getAllArticles(req, res, next) {
 
 function getCommentsByArticleId(req, res, next) {
     const {article_id} = req.params
-    return retrieveCommentsByArticleId(article_id)
+    Promise.all([retrieveCommentsByArticleId(article_id), checkArticleExists(article_id)])
     .then((comments) => {
-        return res.status(200).send({comments})
+        return res.status(200).send({comments: comments[0]})
     })
     .catch((err) => {
         next(err)
@@ -58,5 +58,18 @@ function postComments(req, res, next) {
   })
 }
 
+function patchVotes(req, res, next) {
+  const { inc_votes } = req.body
+  const { article_id } = req.params
 
-module.exports = { getTopics, getArticleById, getAllArticles, getCommentsByArticleId, postComments };
+  return updateVoteCount(article_id, {inc_votes})
+  .then((article) => {
+    return res.status(200).send({article})
+  })
+  .catch((err) => {
+    next(err)
+  })
+}
+
+
+module.exports = { getTopics, getArticleById, getAllArticles, getCommentsByArticleId, postComments, patchVotes };

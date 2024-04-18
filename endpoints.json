@@ -53,7 +53,7 @@
   }
   },
   "POST /api/articles/:article_id/comments": {
-    "description": "serves an array of a chosen article's comments",
+    "description": "serves an array of a chosen article's comments with additional comments added",
     "queries": ["sort_by", "order"],
     "exampleResponse": {
       "comment_id": 2,
@@ -63,5 +63,18 @@
       "body": "text from the comments on the article",
       "article_id": 5
     }
+},
+"PATCH /api/articles/:article_id": {
+  "description": "serves an array of a chosen article's comments with updated keys",
+  "queries": [],
+  "exampleResponse": {
+    "comment_id": 4,
+    "title": "Living in the shadow of a great man",
+    "votes": 150,
+    "created_at": "2019-11-16T05:05:00.000Z",
+    "author": "butter_bridge",
+    "body": "I find this existence challenging",
+    "article_id": 1
+  }
 }
 }
