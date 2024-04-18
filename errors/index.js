@@ -8,15 +8,16 @@ exports.handleCustomErrors = (err, req, res, next) => {
     next(err);
   };
   exports.handleAll404 = ("*", (req, res, next) => {
-    res.status(404).send({ message: "not found" });
+    res.status(404).send({ msg: "not found" });
   });
   
   exports.handleInvalidPath = (err, req, res, next) => {
     if (err.code === "22P02") {
       res.status(400).send({ message: "Invalid path" });
     }
+    else{
     next(err);
-  };
+  }};
   
   exports.handleInvalidColumn = (err, req, res, next) => {
     if (err.code === "23502") {

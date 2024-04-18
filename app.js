@@ -53,7 +53,7 @@ app.get("/api/users", getUsers);
 
 app.use(handleCustomErrors);
 
-app.all(handleAll404);
+app.use("*", handleAll404);
 
 app.use(handleInvalidPath);
 

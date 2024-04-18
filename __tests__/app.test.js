@@ -275,5 +275,38 @@ describe("GET /api/users", () => {
   })
 })
 })
+
+describe("GET /api/articles", () => {
+  test("GET 200 responds with articles filtered by topic", () => {
+    return request(app)
+    .get("/api/articles?topic=mitch")
+    .expect(200)
+    .then(({body}) => {
+      const { articles } = body
+      expect(articles).toHaveLength(12);
+      articles.forEach((article) => {
+      expect(article).toMatchObject({
+        title: expect.any(String),
+        topic: "mitch",
+        author: expect.any(String),
+        created_at: expect.any(String),
+        article_img_url: expect.any(String)
+    })
+  })
+})
+})
+// test("Responds with the correct error code when topic does not exist", () => {
+//   return request(app)
+//     .get("/api/articles?invalid=123")
+//     .expect(400)
+// });
+test("Responds with the correct error code when path is incorrect", () => {
+  return request(app)
+    .get("/api/articlessss?topic=mitch")
+    .expect(404)
+});
+})
+// i think i have a problem with my error handling, cant seem to get 400 working
+// and 404 / 400 are the wrong way around - need to fix
 // 404 in the right place but thing doesnt exist - could exist but doesnt
 // 400 mispel not even in right pplace in path - not a chnace it exists

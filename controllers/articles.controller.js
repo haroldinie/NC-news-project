@@ -13,7 +13,8 @@ function getArticleById(req, res, next) {
   }
   
   function getAllArticles(req, res, next) {
-    return retrieveAllArticles()
+    const { topic } = req.query
+    return retrieveAllArticles(topic)
       .then((articles) => {
         res.status(200).send({ articles });
       })
