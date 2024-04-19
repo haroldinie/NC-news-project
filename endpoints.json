@@ -28,7 +28,7 @@
   },
   "GET /api/articles/:article_id": {
     "description": "serves an array of a chosen article",
-    "queries": [],
+    "queries": ["topic"],
     "exampleResponse": {
       "article_id": 2,
       "title": "Sony Vaio; or, The Laptop",
