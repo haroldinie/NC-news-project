@@ -50,7 +50,7 @@ describe("GET /api/topics", () => {
 describe("GET /api/articles/:article_id", () => {
   test("responds with an article object with the correct properties", () => {
     return request(app)
-      .get("/api/articles/2")
+      .get("/api/articles/3")
       .expect(200)
       .then(({ body }) => {
         expect(body).toMatchObject({
@@ -64,12 +64,31 @@ describe("GET /api/articles/:article_id", () => {
         });
       });
   });
+  test("responds with an article object with the comment count property included", () => {
+    return request(app)
+      .get("/api/articles/3")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          title: expect.any(String),
+          topic: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
+          created_at: expect.any(String),
+          votes: expect.any(Number),
+          article_img_url: expect.any(String),
+          comment_count: 2
+        });
+      });
+  });
+  
   test("GET:400, responds with status code and message when given invalid id", () => {
     return request(app).get("/api/articles/wrong").expect(400);
   });
   test("GET:404, responds with status code and message when given invalid id", () => {
     return request(app).get("/api/articlesss/3").expect(404);
   });
+
 });
 describe("GET /api/articles", () => {
   test("responds with an array of all articles", () => {
