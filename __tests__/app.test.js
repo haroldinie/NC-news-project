@@ -57,7 +57,23 @@ describe("GET /api/articles/:article_id", () => {
           title: expect.any(String),
           topic: expect.any(String),
           author: expect.any(String),
-          // body: expect.any(String),
+          body: expect.any(String),
+          created_at: expect.any(String),
+          votes: expect.any(Number),
+          article_img_url: expect.any(String),
+        });
+      });
+  });
+  test("responds with an article object with the comment count property included", () => {
+    return request(app)
+      .get("/api/articles/3")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          title: expect.any(String),
+          topic: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
           created_at: expect.any(String),
           votes: expect.any(Number),
           article_img_url: expect.any(String),
@@ -65,6 +81,7 @@ describe("GET /api/articles/:article_id", () => {
         });
       });
   });
+  
   test("GET:400, responds with status code and message when given invalid id", () => {
     return request(app).get("/api/articles/wrong").expect(400);
   });
