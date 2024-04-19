@@ -5,18 +5,16 @@ const endPoints = require("./endpoints.json");
 const {
   getArticleById,
   getAllArticles,
-  patchVotes
+  patchVotes,
 } = require("./controllers/articles.controller");
 
 const {
-  deleteComment, 
-  postComments, 
-  getCommentsByArticleId
- } = require("./controllers/comments.controller");
+  deleteComment,
+  postComments,
+  getCommentsByArticleId,
+} = require("./controllers/comments.controller");
 
- const {
-  getTopics
-} = require("./controllers/topics.controller");
+const { getTopics } = require("./controllers/topics.controller");
 
 const {
   handleCustomErrors,
@@ -25,7 +23,7 @@ const {
   handleInvalidColumn,
   handleInvalidKey,
   handle400,
-  handle500
+  handle500,
 } = require("./errors/index");
 const { getUsers } = require("./controllers/users.controller");
 
@@ -64,7 +62,5 @@ app.use(handleInvalidKey);
 app.use(handle400);
 
 app.use(handle500);
-
-
 
 module.exports = app;

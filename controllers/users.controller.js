@@ -1,14 +1,14 @@
-const { retrieveUsers } = require("../models/users.models.js")
+const { retrieveUsers } = require("../models/users.models.js");
 
 function getUsers(req, res, next) {
-    const { query } = req
-    return retrieveUsers(query)
-    .then(({rows}) => {
-        res.status(200).send(rows)
+  const { query } = req;
+  return retrieveUsers(query)
+    .then(({ rows }) => {
+      res.status(200).send(rows);
     })
     .catch((err) => {
-        next(err)
-    })
+      next(err);
+    });
 }
 
-module.exports = { getUsers }
+module.exports = { getUsers };
