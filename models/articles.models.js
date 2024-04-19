@@ -4,14 +4,8 @@ function retrieveArticleById(article_id) {
   return db
     .query(
       `SELECT 
-      articles.author,
-      articles.title,
-      articles.article_id,
-      articles.topic,
-      articles.created_at,
-      articles.votes,
-      articles.article_img_url, 
-      COUNT(comments.article_id) AS comment_count
+      articles.*, 
+      COUNT(comments.article_id) :: INT AS comment_count
     FROM 
       articles 
     LEFT JOIN 
@@ -19,13 +13,7 @@ function retrieveArticleById(article_id) {
     WHERE 
       articles.article_id = $1
     GROUP BY 
-      articles.author,
-      articles.title,
-      articles.article_id,
-      articles.topic,
-      articles.created_at,
-      articles.votes,
-      articles.article_img_url`,
+      articles.article_id`,
       [article_id]
     )
     .then(({ rows }) => {
