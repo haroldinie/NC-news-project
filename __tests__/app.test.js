@@ -307,6 +307,8 @@ test("Responds with the correct error code when path is incorrect", () => {
 });
 })
 // i think i have a problem with my error handling, cant seem to get 400 working
-// and 404 / 400 are the wrong way around - need to fix
+// and 404 / 400 are the wrong way around - not sure what im doing wrong?
+
+
 // 404 in the right place but thing doesnt exist - could exist but doesnt
 // 400 mispel not even in right pplace in path - not a chnace it exists
