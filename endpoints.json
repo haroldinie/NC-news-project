@@ -39,5 +39,57 @@
       "votes": 0,
       "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
     }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an array of a chosen article's comments",
+    "queries": ["sort_by", "order"],
+    "exampleResponse": {
+      "comment_id": 1,
+      "votes": 5,
+      "created_at": "2020-10-16T05:03:00.000Z",
+      "author": "icellusedkars",
+      "body": "text from the comments on the article",
+      "article_id": 5
   }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "serves an array of a chosen article's comments with additional comments added",
+    "queries": ["sort_by", "order"],
+    "exampleResponse": {
+      "comment_id": 2,
+      "votes": 6,
+      "created_at": "2018-10-16T05:03:00.000Z",
+      "author": "weegembump",
+      "body": "text from the comments on the article",
+      "article_id": 5
+    }
+},
+"PATCH /api/articles/:article_id": {
+  "description": "serves an array of a chosen article's comments with updated keys",
+  "queries": [],
+  "exampleResponse": {
+    "comment_id": 4,
+    "title": "Living in the shadow of a great man",
+    "votes": 150,
+    "created_at": "2019-11-16T05:05:00.000Z",
+    "author": "butter_bridge",
+    "body": "I find this existence challenging",
+    "article_id": 1
+  }
+},
+"DELETE /api/comments/:comment_id": {
+  "description": "deletes a comment from the comments table, responds with 204",
+  "queries": [],
+  "exampleResponse": {
+    "response": 204
+  }
+},
+"GET /api/users": {
+  "description": "serves an array of all topics",
+  "queries": [],
+  "exampleResponse": {
+    "topics": [{ "username": "icellusedkars", "name": "Barry", "avatar_url": "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4" }]
+  }
+}
+
 }

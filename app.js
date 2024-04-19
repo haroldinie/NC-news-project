@@ -2,7 +2,34 @@ const express = require("express");
 const app = express();
 
 const endPoints = require("./endpoints.json");
-const { getTopics, getArticleById, getAllArticles } = require("./controller");
+const {
+  getArticleById,
+  getAllArticles,
+  patchVotes
+} = require("./controllers/articles.controller");
+
+const {
+  deleteComment, 
+  postComments, 
+  getCommentsByArticleId
+ } = require("./controllers/comments.controller");
+
+ const {
+  getTopics
+} = require("./controllers/topics.controller");
+
+const {
+  handleCustomErrors,
+  handleAll404,
+  handleInvalidPath,
+  handleInvalidColumn,
+  handleInvalidKey,
+  handle400,
+  handle500
+} = require("./errors/index");
+const { getUsers } = require("./controllers/users.controller");
+
+app.use(express.json());
 
 app.get("/api/topics", getTopics);
 
@@ -10,23 +37,34 @@ app.get("/api", (req, res) => {
   res.status(200).send(endPoints);
 });
 
-app.get("/api/articles", getAllArticles)
+app.get("/api/articles", getAllArticles);
 
 app.get("/api/articles/:article_id", getArticleById);
 
-app.all("*", (req, res, next) => {
-  res.status(404).send({ message: "not found" });
-});
+app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
-app.use((err, req, res, next) => {
-    res.status(400).send({message: "Bad request"})
-})
+app.post("/api/articles/:article_id/comments", postComments);
+
+app.patch("/api/articles/:article_id", patchVotes);
+
+app.delete("/api/comments/:comment_id", deleteComment);
+
+app.get("/api/users", getUsers);
+
+app.use(handleCustomErrors);
+
+app.use("*", handleAll404);
+
+app.use(handleInvalidPath);
+
+app.use(handleInvalidColumn);
+
+app.use(handleInvalidKey);
+
+app.use(handle400);
+
+app.use(handle500);
 
 
-app.use((err, req, res, next) => {
-  res.status(500).send({ message: "internal server error" });
-});
 
 module.exports = app;
-
-
