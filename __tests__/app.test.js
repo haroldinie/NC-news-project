@@ -129,23 +129,14 @@ describe("GET /api/articles", () => {
       })
     })
     })
-    // test("Responds with the correct error code when path is incorrect", () => {
-    //   return request(app)
-    //     .get("/api/articles?topic=wrong")
-    //     .expect(404)
-    // });
+
     
     test("Responds with 200 when topic exists but no articles associated", () => {
       return request(app)
         .get("/api/articles?topic=paper")
         .expect(200)
     });
-  //   test("Responds with the correct error code when path is incorrect", () => {
-  //     return request(app)
-  //       .get("/api/articles?topic=paper")
-  //       .expect(404)
-  //   });
-  // });
+
   test("resonds with array in desc order", () => {
     return request(app)
       .get("/api/articles")
@@ -186,9 +177,7 @@ describe("GET /api/articles/:article_id/comments", () => {
   test("GET:400, responds with status code and message when given invalid id", () => {
     return request(app).get("/api/articles/wrong/comments").expect(400);
   });
-  // test.only("GET:404, responds with status code when given invalid id", () => {
-  //   return request(app).get("/api/articles/999/comments").expect(404);
-  // });
+
   test("GET: 200, responds with empty array when artist_id is valid but no comments exists", () => {
     return request(app)
       .get("/api/articles/10/comments")
@@ -333,9 +322,3 @@ describe("GET /api/users", () => {
 })
 })
 })
-// i think i have a problem with my error handling, cant seem to get 400 working
-// and 404 / 400 are the wrong way around - not sure what im doing wrong?
-
-
-// 404 in the right place but thing doesnt exist - could exist but doesnt
-// 400 mispel not even in right pplace in path - not a chnace it exists
