@@ -27,6 +27,10 @@ const {
 } = require("./errors/index");
 const { getUsers } = require("./controllers/users.controller");
 
+const cors = require('cors')
+
+app.use(cors())
+
 app.use(express.json());
 
 app.get("/api/topics", getTopics);
