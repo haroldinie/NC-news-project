@@ -21,7 +21,7 @@ function retrieveArticleById(article_id) {
     });
 }
 
-function retrieveAllArticles(topic, sort_by='articles.created_at', order='DESC') {
+function retrieveAllArticles(topic, sort_by='created_at', order='DESC') {
   let sqlQueryString = `SELECT 
     articles.author,
     articles.title,
