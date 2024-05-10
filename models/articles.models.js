@@ -21,7 +21,7 @@ function retrieveArticleById(article_id) {
     });
 }
 
-function retrieveAllArticles(topic) {
+function retrieveAllArticles(topic, sort_by='articles.created_at', order='DESC') {
   let sqlQueryString = `SELECT 
     articles.author,
     articles.title,
@@ -41,7 +41,7 @@ function retrieveAllArticles(topic) {
   }
 
   sqlQueryString += `GROUP BY articles.article_id
-    ORDER BY articles.created_at DESC;`;
+    ORDER BY ${sort_by} ${order};`;
 
   return db.query(sqlQueryString, queryVals).then(({ rows }) => {
     return rows;
